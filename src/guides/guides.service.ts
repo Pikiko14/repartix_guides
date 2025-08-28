@@ -6,10 +6,12 @@ import { UpdateGuideDto } from './dto/update-guide.dto';
 import { HttpStatus, Inject, Injectable, Logger } from '@nestjs/common';
 import { GuidesRepository } from './repositories/guides.repository';
 import { RpcException } from '@nestjs/microservices';
+import { CacheService } from 'src/commons/cache/cache.service';
 
 @Injectable()
 export class GuidesService {
   constructor(
+    @Inject() private readonly cache: CacheService,
     @InjectQueue('guides') private guidesQueue: Queue,
     @Inject() private readonly repository: GuidesRepository,
   ) {}
@@ -21,7 +23,19 @@ export class GuidesService {
 
   async findOne(getGuideDto: GetGuideDto) {
     try {
-      const guide = await this.repository.find(
+      // get from cache
+      const cacheKey = `guide:data:${JSON.stringify(getGuideDto)}`;
+      let guide = await this.cache.getItem(cacheKey);
+
+      if (guide) {
+        return {
+          success: true,
+          data: guide,
+          message: 'Guide information (from cache)',
+        };
+      }
+
+      guide = await this.repository.find(
         getGuideDto.reference,
         getGuideDto.parent_id,
       );
@@ -32,6 +46,9 @@ export class GuidesService {
           status: HttpStatus.NOT_FOUND,
           error: true,
         });
+
+      // set in cache
+      await this.cache.setItem(cacheKey, guide);
 
       return {
         success: true,
