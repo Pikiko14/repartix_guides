@@ -2,6 +2,7 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as PdfPrinter from 'pdfmake';
+import { firstValueFrom } from 'rxjs';
 import { envs } from 'src/configuration';
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
@@ -33,10 +34,14 @@ export class PdfService {
     const pageSize = { width: 283.5, height: 283.5 };
 
     const content = [];
-    createOrderDto.products.map((el) => {
+    createOrderDto?.products.map((el) => {
       content.push(el.name);
       return el;
     });
+
+    const { configuration } = await firstValueFrom(
+      this.client.send('find-configuration', createOrderDto.parent_id)
+    );
 
     const docDefinition = {
       pageSize,
@@ -85,7 +90,7 @@ export class PdfService {
                       margin: [0, 4, 0, 0],
                     },
                     {
-                      text: `(COP) ${
+                      text: `${configuration?.currency} ${
                         createOrderDto.cash_on_delivery
                           ? createOrderDto.cash_amount
                           : '0,00'

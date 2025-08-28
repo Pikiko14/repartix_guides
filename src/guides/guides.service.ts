@@ -19,6 +19,10 @@ export class GuidesService {
   async create(createOrderDto: CreateOrderDto | UpdateGuideDto | any) {
     if (!createOrderDto?.products) return;
 
+    await this.cache.removeByPrefix(
+      `keyv:guide:data:`,
+    );
+
     await this.guidesQueue.add('print', createOrderDto);
     return true;
   }
