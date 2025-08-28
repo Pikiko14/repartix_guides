@@ -150,7 +150,12 @@ export class PdfService {
                 { text: 'Teléfono', bold: true, fontSize: 9 },
               ],
               [
-                { text: createOrderDto.client?.name || '', fontSize: 9 },
+                {
+                  text:
+                    `${createOrderDto.client?.name} ${createOrderDto.client?.last_name} | ${createOrderDto.client?.phone} | ${createOrderDto.client?.dni}` ||
+                    '',
+                  fontSize: 9,
+                },
                 { text: createOrderDto.client?.phone || '', fontSize: 9 },
               ],
             ],
