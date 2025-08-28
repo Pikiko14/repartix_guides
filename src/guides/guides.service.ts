@@ -17,6 +17,8 @@ export class GuidesService {
   ) {}
 
   async create(createOrderDto: CreateOrderDto | UpdateGuideDto | any) {
+    if (!createOrderDto?.products) return;
+
     await this.guidesQueue.add('print', createOrderDto);
     return true;
   }

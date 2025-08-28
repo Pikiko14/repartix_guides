@@ -41,7 +41,7 @@ export class PdfService {
     const docDefinition = {
       pageSize,
       pageMargins: [8, 8, 8, 8],
-      defaultStyle: { font: 'Helvetica', fontSize: 9 },
+      defaultStyle: { font: 'Helvetica', fontSize: 8 },
       content: [
         // ENCABEZADO (Guía + QR + ciudad + recaudo)
         {
@@ -51,14 +51,14 @@ export class PdfService {
               [
                 {
                   stack: [
-                    { text: 'Guía N°', bold: true, fontSize: 9 },
-                    { text: createOrderDto.reference, fontSize: 9 },
+                    { text: 'Guía N°', bold: true, fontSize: 8 },
+                    { text: createOrderDto.reference, fontSize: 8 },
                     {
                       text: [
-                        { text: 'Dirección: ', bold: true, fontSize: 9 },
+                        { text: 'Dirección: ', bold: true, fontSize: 8 },
                         {
                           text: createOrderDto.client.address || '',
-                          fontSize: 9,
+                          fontSize: 8,
                         },
                       ],
                       margin: [0, 5, 0, 0],
@@ -75,7 +75,7 @@ export class PdfService {
                     {
                       text: createOrderDto.city || '',
                       alignment: 'center',
-                      fontSize: 9,
+                      fontSize: 8,
                       margin: [0, 4, 0, 0],
                     },
                     {
@@ -91,7 +91,7 @@ export class PdfService {
                           : '0,00'
                       }`,
                       alignment: 'center',
-                      fontSize: 9,
+                      fontSize: 8,
                       bold: true,
                     },
                   ],
@@ -111,7 +111,7 @@ export class PdfService {
             // Altura fija de filas: encabezado 18pt, contenido 70pt
             heights: (row) => (row === 0 ? 8 : 30),
             body: [
-              [{ text: 'Contenido', fontSize: 9, bold: true }],
+              [{ text: 'Contenido', fontSize: 8, bold: true }],
               [
                 {
                   text: content.join(', ').substring(0, 200),
@@ -135,28 +135,28 @@ export class PdfService {
             widths: ['50%', '50%'],
             body: [
               [
-                { text: 'Remitente', bold: true, fontSize: 9 },
-                { text: 'Domiciliario', bold: true, fontSize: 9 },
+                { text: 'Remitente', bold: true, fontSize: 8 },
+                { text: 'Domiciliario', bold: true, fontSize: 8 },
               ],
               [
                 {
                   text: `${createOrderDto.sender?.brand_name || ''} \n Tel: ${createOrderDto.sender?.brand_phone || ''}`,
-                  fontSize: 9,
+                  fontSize: 8,
                 },
-                { text: createOrderDto.delivery_man?.name || '', fontSize: 9 },
+                { text: createOrderDto.delivery_man?.name || '', fontSize: 8 },
               ],
               [
-                { text: 'Destinatario', bold: true, fontSize: 9 },
-                { text: 'Teléfono', bold: true, fontSize: 9 },
+                { text: 'Destinatario', bold: true, fontSize: 8 },
+                { text: 'Teléfono', bold: true, fontSize: 8 },
               ],
               [
                 {
                   text:
                     `${createOrderDto.client?.name} ${createOrderDto.client?.last_name}` ||
                     '',
-                  fontSize: 9,
+                  fontSize: 8,
                 },
-                { text: createOrderDto.client?.phone || '', fontSize: 9 },
+                { text: createOrderDto.client?.phone || '', fontSize: 8 },
               ],
             ],
           },
@@ -172,7 +172,7 @@ export class PdfService {
             // Altura fija de filas: encabezado 18pt, contenido 70pt
             heights: (row) => (row === 0 ? 8 : 30),
             body: [
-              [{ text: 'Observaciones', fontSize: 9, bold: true }],
+              [{ text: 'Observaciones', fontSize: 8, bold: true }],
               [
                 {
                   text: createOrderDto.notes.substring(0, 200) || '',
