@@ -1,9 +1,9 @@
 import { Controller } from '@nestjs/common';
-import { MessagePattern, Payload } from '@nestjs/microservices';
 import { GuidesService } from './guides.service';
+import { GetGuideDto } from './dto/get-guide.dto';
 import { CreateOrderDto } from './dto/create-guide.dto';
 import { UpdateGuideDto } from './dto/update-guide.dto';
-
+import { MessagePattern, Payload } from '@nestjs/microservices';
 @Controller()
 export class GuidesController {
   constructor(private readonly guidesService: GuidesService) {}
@@ -14,7 +14,7 @@ export class GuidesController {
   }
 
   @MessagePattern('find-guide')
-  findOne(@Payload() id: number) {
-    return this.guidesService.findOne(id);
+  findOne(@Payload() getGuideDto: GetGuideDto) {
+    return this.guidesService.findOne(getGuideDto);
   }
 }
