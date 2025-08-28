@@ -152,7 +152,7 @@ export class PdfService {
               [
                 {
                   text:
-                    `${createOrderDto.client?.name} ${createOrderDto.client?.last_name} | ${createOrderDto.client?.phone} | ${createOrderDto.client?.dni}` ||
+                    `${createOrderDto.client?.name} ${createOrderDto.client?.last_name}` ||
                     '',
                   fontSize: 9,
                 },
