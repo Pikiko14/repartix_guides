@@ -247,7 +247,7 @@ export class PdfService {
           this.client.emit('update-status-order', createGuideDto);
           fs.unlinkSync(filePath);
         }
-      }, 1500);
+      }, 2500);
     }
 
     return filePath;
