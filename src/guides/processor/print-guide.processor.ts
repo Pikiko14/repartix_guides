@@ -18,7 +18,11 @@ export class PrintGuideProcessor {
 
   @Process('print')
   async handlerPrint(job: Job<{ order: CreateOrderDto }>) {
-    await this.pdfService.generateOrderPdf(job.data);
+    try {
+      await this.pdfService.generateOrderPdf(job.data);
+    } catch (error) {
+      this.logger.error(error);
+    }
   }
 
   @OnQueueActive()

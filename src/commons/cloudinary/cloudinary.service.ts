@@ -39,7 +39,10 @@ export class CloudinaryService {
             access_mode: 'public',
           },
           (error: any, result: any) => {
-            if (error) return reject(error);
+            if (error) {
+              console.log(error)
+              return reject(error);
+            };
             resolve(result);
           },
         )
