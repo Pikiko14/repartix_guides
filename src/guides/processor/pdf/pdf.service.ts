@@ -213,9 +213,9 @@ export class PdfService {
 
     await new Promise((resolve, reject) => {
       pdfDoc.pipe(fs.createWriteStream(filePath));
-      pdfDoc.on('end', resolve);
       pdfDoc.on('error', reject);
       pdfDoc.end();
+      resolve(true);
     });
 
     if (fs.readFileSync(filePath)) {
@@ -257,7 +257,7 @@ export class PdfService {
           this.client.emit('update-status-order', createGuideDto);
           fs.unlinkSync(filePath);
         }
-      }, 2500);
+      }, 3500);
     }
 
     return filePath;
