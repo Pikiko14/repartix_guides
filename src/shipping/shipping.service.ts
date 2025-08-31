@@ -40,6 +40,8 @@ export class ShippingService {
         ...createShippingDto,
         distance_in_km: shippingPrice?.distance || 0,
         shipping_price: shippingPrice?.price || 0,
+        discount_porcent: shippingPrice?.discountPorcent || 0,
+        discount_amount: shippingPrice?.discount || 0,
       };
     } catch (error) {
       this.logger.error(`Error en la cotizacion para el envio: ${JSON.stringify(createShippingDto)} en la fecha ${new Date().toISOString()}`);

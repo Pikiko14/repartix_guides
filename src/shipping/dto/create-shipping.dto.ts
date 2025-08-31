@@ -78,4 +78,8 @@ export class CreateShippingDto {
   @IsOptional()
   @IsNumber()
   price_by_km?: number;
+
+  @IsOptional()
+  @IsNumber()
+  discount_porcent: number;
 }

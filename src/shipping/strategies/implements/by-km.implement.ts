@@ -33,9 +33,20 @@ export class ByKmImplement implements IQuoteShipping {
       createShippingDto.client.coords.lat,
       createShippingDto.client.coords.lng,
     );
+
+    const price = parseFloat(distance.toFixed(2)) * createShippingDto.price_by_km;
+    let discount = 0;
+    
+    // validate discount
+    if (createShippingDto?.discount_porcent > 0) {
+      discount = (price * createShippingDto?.discount_porcent) / 100;
+    }
+
     return {
       distance: parseFloat(distance.toFixed(2)),
-      price: parseFloat(distance.toFixed(2)) * createShippingDto.price_by_km
+      price,
+      discount,
+      discountPorcent: createShippingDto?.discount_porcent, 
     };
   }
 
