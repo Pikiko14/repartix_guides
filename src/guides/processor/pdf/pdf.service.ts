@@ -253,6 +253,15 @@ export class PdfService {
               await this.repository.update(issetGuide, issetGuide.id);
             }
 
+            this.client.emit('create-websocket-notification', {
+              success: true,
+              data: { pdf: cloudinaryResult.secure_url, model_id: issetGuide?.id || '' },
+              room: `${createOrderDto.user_request_id}-${createOrderDto.parent_id}`,
+              model: 'orders',
+            });
+
+            console.log(createOrderDto);
+
             // emit data to order ms
             createGuideDto.status = 'guide-printed';
             this.client.emit('update-status-order', createGuideDto);

@@ -247,4 +247,7 @@ export class CreateOrderDto {
   @IsOptional()
   @IsBoolean()
   print_guide?: boolean;
+
+  @IsOptional()
+  user_request_id: string;
 }
