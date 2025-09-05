@@ -259,9 +259,6 @@ export class PdfService {
               room: `${createOrderDto.user_request_id}-${createOrderDto.parent_id}`,
               model: 'orders',
             });
-
-            console.log(createOrderDto);
-
             // emit data to order ms
             createGuideDto.status = 'guide-printed';
             this.client.emit('update-status-order', createGuideDto);
