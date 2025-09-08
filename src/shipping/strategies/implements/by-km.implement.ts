@@ -4,28 +4,27 @@ import { IQuoteShipping } from 'src/shipping/interfaces/quote-shipping.interface
 export class ByKmImplement implements IQuoteShipping {
   /**
    * Calcula el costo del envio
-   * @param { CreateShippingDto } createShippingDto 
+   * @param { CreateShippingDto } createShippingDto
    * @returns { any }
    */
   quoteShipping(createShippingDto: CreateShippingDto): any {
     if (!createShippingDto.sender)
-      throw new Error("Please configure sender object in your request");
+      throw new Error('Please configure sender object in your request');
 
     if (!createShippingDto.client)
-      throw new Error("Please configure client object in your request");
+      throw new Error('Please configure client object in your request');
 
     if (!createShippingDto.sender.coords.lat)
-      throw new Error("Please configure sender lat in your request");
+      throw new Error('Please configure sender lat in your request');
 
     if (!createShippingDto.sender.coords.lng)
-      throw new Error("Please configure sender lng in your request");
+      throw new Error('Please configure sender lng in your request');
 
     if (!createShippingDto.client.coords.lat)
-      throw new Error("Please configure client lat in your request");
+      throw new Error('Please configure client lat in your request');
 
     if (!createShippingDto.client.coords.lng)
-      throw new Error("Please configure client lng in your request")
-
+      throw new Error('Please configure client lng in your request');
 
     const distance = this.calculateDistance(
       createShippingDto.sender.coords.lat,
@@ -34,10 +33,18 @@ export class ByKmImplement implements IQuoteShipping {
       createShippingDto.client.coords.lng,
     );
 
-    const price = parseFloat(distance.toFixed(2)) * createShippingDto.price_by_km;
-    let discount = 0;
-    
+    let price = parseFloat(distance.toFixed(2)) * createShippingDto.price_by_km;
+
+    // validamos el porcentage de seguro
+    let insurance = 0;
+    if (createShippingDto.insurance_porcentage) {
+      const insurancePorcentage = createShippingDto.insurance_porcentage / 100;
+      insurance = price * insurancePorcentage;
+      price += insurance;
+    }
+
     // validate discount
+    let discount = 0;
     if (createShippingDto?.discount_porcent > 0) {
       discount = (price * createShippingDto?.discount_porcent) / 100;
     }
@@ -46,7 +53,8 @@ export class ByKmImplement implements IQuoteShipping {
       distance: parseFloat(distance.toFixed(2)),
       price,
       discount,
-      discountPorcent: createShippingDto?.discount_porcent, 
+      discountPorcent: createShippingDto?.discount_porcent,
+      insurance,
     };
   }
 

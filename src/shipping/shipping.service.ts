@@ -21,6 +21,7 @@ export class ShippingService {
           shipping_price: shippingPrice?.price || 0,
           discount_porcent: shippingPrice?.discountPorcent || 0,
           discount_amount: shippingPrice?.discount || 0,
+          insurance_amount: shippingPrice?.insurance || 0,
         };
       }
 
@@ -48,6 +49,7 @@ export class ShippingService {
         shipping_price: shippingPrice?.price || 0,
         discount_porcent: shippingPrice?.discountPorcent || 0,
         discount_amount: shippingPrice?.discount || 0,
+        insurance_amount: shippingPrice?.insurance || 0,
       };
     } catch (error) {
       this.logger.error(

@@ -82,4 +82,8 @@ export class CreateShippingDto {
   @IsOptional()
   @IsNumber()
   discount_porcent: number;
+
+  @IsOptional()
+  @IsNumber()
+  insurance_porcentage?: number;
 }
